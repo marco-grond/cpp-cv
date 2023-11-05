@@ -40,5 +40,27 @@ int main() {
 
   std::cout << mat4[2][2] << "\n";
   std::cout << mat4(2, 2) << "\n";
-  std::cout << mat4(6, 1);
+  std::cout << "AAAA\n";
+  mat4.print();
+  std::cout << "\n";
+
+  Matrix column = mat4.getColumn(2);
+  column.print();
+  std::cout << "\n";
+
+  Matrix row = mat4.getRow(2);
+  row.print();
+  std::cout << "\n";
+  row *= 5;
+  row.print();
+  row *= 2.5;
+  row.print();
+  Matrix test = Matrix::Multiply(row, column);
+  test.print();
+  //row *= column;
+  //row.print();
+  column *= row;
+  column.print();
+  mat *= mat2;
+  mat.print();
 }

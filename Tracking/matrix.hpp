@@ -13,8 +13,8 @@ class Matrix;
 
 class Matrix {
   private:
-    int const rows;
-    int const cols;
+    int rows;
+    int cols;
     double* matrix;
 
   public:
@@ -27,30 +27,38 @@ class Matrix {
     // Static methods for instatiating a specific type of matrix
     static Matrix Zeros(int num_rows, int num_columns);
     static Matrix Identity(int size);
+    static Matrix Multiply(Matrix left, Matrix right);
 
     // Functions
-    void print(int decimals=5);
+
+    // Getter functions
     int getRows();
     int getColumns();
+    Matrix getRow(int row);
+    Matrix getColumn(int column);
+
+    void print(int decimals=5);
     Matrix copy();
     // TODO - Add matrix functions
+    /*
+    * Transpose
+    * Addition
+    */
+
 
     // Operators
-    double &operator()(int row = 0, int column = 0 ) {
-      std::cout << "(" << row << ", " << column << ") -> (" << rows << ", " << cols << ") " << (((0 > row) || (row >= rows)) || ((0 > column) || (column >= cols)))  << "\n";
-      if (((0 > row) || (row >= rows)) ||
-          ((0 > column) || (column >= cols))) {
-        std::string index = "(" + std::to_string(row) + "," + 
-                            std::to_string(column) + ")";
-        std::string size = "(" + std::to_string(rows) + "," + 
-                            std::to_string(cols) + ")";
-        std::cout << "Invalid index " << index << " for matrix with size " 
-                  << size << "\n";
-        throw std::invalid_argument("Invalid index.");
-      }
-
-      return matrix[row*cols + column];
-    }
+    double &operator()(int row = 0, int column = 0);
+    Matrix& operator=(Matrix mat);
+    Matrix& operator*=(int num);
+    Matrix& operator*=(double num);
+    Matrix& operator*=(Matrix mat);
+    //Matrix operator/();
+    //Matrix operator+();
+    //Matrix operator-();
+    //Matrix operator*=();
+    //Matrix operator/=();
+    //Matrix operator+=();
+    //Matrix operator-=();
 
     // Friend class
     // Define friend class "Row" to allow for indexing using []
@@ -67,7 +75,7 @@ class Matrix {
 
         // Get the value at the correct column index
         double& operator[](int column) {
-          std::cout << "[" << row << "][" << column << "] -> (" << parent.rows << ", " << parent.cols << ")\n";
+          //std::cout << "[" << row << "][" << column << "] -> (" << parent.rows << ", " << parent.cols << ")\n";
           if (((0 > row) || (row >= parent.rows)) ||
               ((0 > column) || (column >= parent.cols))) {
             std::string index = "(" + std::to_string(row) + "," + 
