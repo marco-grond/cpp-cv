@@ -68,7 +68,7 @@ Matrix::~Matrix() {
 * num_columns - An integer denoting the number of columns that the matrix 
 *               should have
 */
-Matrix Matrix::Zeros(int num_rows, int num_columns) {
+Matrix Matrix::zeros(int num_rows, int num_columns) {
   Matrix mat(num_rows, num_columns);
   for (int i = 0; i < num_rows; i++){
     for (int j = 0; j < num_columns; j++) {
@@ -84,15 +84,24 @@ Matrix Matrix::Zeros(int num_rows, int num_columns) {
 *
 * size - An integer denoting the number of rows and columns for the matrix
 */
-Matrix Matrix::Identity(int size) {
-  Matrix mat = Matrix::Zeros(size, size);
+Matrix Matrix::identity(int size) {
+  Matrix mat = Matrix::zeros(size, size);
   for (int i = 0; i < size; i++) {
     mat[i][i] = 1;
   }
   return mat;
 }
 
-Matrix Matrix::Multiply(Matrix left, Matrix right) {
+/*
+* Applies matrix multiplication to the two matrices presented. Checks are done 
+* to ensure that the matrices have the correct dimensions.
+* 
+* left - A matrix object representing the matrix on the left side for 
+*        multiplication
+* right - A matrix object representing the matrix on the right side for 
+*         multiplication
+*/
+Matrix Matrix::multiply(Matrix left, Matrix right) {
 
   // Check to see if the dimensions for the matrices allign
   if (left.getColumns() != right.getRows()) {
@@ -112,6 +121,90 @@ Matrix Matrix::Multiply(Matrix left, Matrix right) {
       }
       result[r][c] = total;
       total = 0;
+    }
+  }
+  return result;
+}
+
+/*
+* Adds the two matrices together. Checks are done to ensure that the matrices 
+* are of the same size.
+* 
+* left - A matrix object representing the left matrix in the addition
+* right - A matrix object representing the right matrix in the addition
+*/
+Matrix Matrix::add(Matrix left, Matrix right) {
+  // Check to ensure that the matrices have the same dimensions
+  if ((left.getColumns() != right.getColumns()) || 
+      (left.getRows() != right.getRows())) {
+    std::cout << "Unable to add matrices with differing dimensions: ("
+              << left.getRows() << ", " << left.getColumns() << ") + ("
+              << right.getRows() << ", " << right.getColumns() << ")\n";
+    throw std::invalid_argument("Matrix dimension do not match.");
+  }
+
+  // Create a new matrix of the correct size and populate it
+  Matrix result(left.getRows(), left.getColumns());
+  for (int r = 0; r < left.getRows(); r++) {
+    for (int c = 0; c < left.getColumns(); c++) {
+      result[r][c] = left[r][c] + right[r][c];
+    }
+  }
+  return result;
+}
+
+/*
+* Subtracts the matrix on the right from the matrix on the left. Checks are 
+* done to ensure that the matrices are of the same size.
+* 
+* left - A matrix object representing the left matrix in the subtraction
+* right - A matrix object representing the right matrix in the subtraction
+*/
+Matrix Matrix::subtract(Matrix left, Matrix right) {
+  // Check to ensure that the matrices have the same dimensions
+  if ((left.getColumns() != right.getColumns()) || 
+      (left.getRows() != right.getRows())) {
+    std::cout << "Unable to subtract matrices with differing dimensions: ("
+              << left.getRows() << ", " << left.getColumns() << ") - ("
+              << right.getRows() << ", " << right.getColumns() << ")\n";
+    throw std::invalid_argument("Matrix dimension do not match.");
+  }
+
+  // Create a new matrix of the correct size and populate it
+  Matrix result(left.getRows(), left.getColumns());
+  for (int r = 0; r < left.getRows(); r++) {
+    for (int c = 0; c < left.getColumns(); c++) {
+      result[r][c] = left[r][c] - right[r][c];
+    }
+  }
+  return result;
+}
+
+/*
+* Performs element-wise multiplication of two matrices. Check are done to 
+* ensure that the matrices are of the same size.
+*
+* left - A matrix object representing the left matrix in the element-wise
+*        multiplication.
+* right - A matrix object representing the right matrix in the element-wise
+*         multiplication
+*/
+Matrix Matrix::multiplyElementwise(Matrix left, Matrix right) {
+  // Check to ensure that the matrices have the same dimensions
+  if ((left.getColumns() != right.getColumns()) || 
+      (left.getRows() != right.getRows())) {
+    std::cout << "Unable to perform element-wise multiplication on matrices "
+              << "with differing dimensions: (" << left.getRows() << ", " 
+              << left.getColumns() << ") - (" << right.getRows() << ", " 
+              << right.getColumns() << ")\n";
+    throw std::invalid_argument("Matrix dimension do not match.");
+  }
+
+  // Create a new matrix of the correct size and populate it
+  Matrix result(left.getRows(), left.getColumns());
+  for (int r = 0; r < left.getRows(); r++) {
+    for (int c = 0; c < left.getColumns(); c++) {
+      result[r][c] = left[r][c] * right[r][c];
     }
   }
   return result;
@@ -296,7 +389,70 @@ Matrix& Matrix::operator*=(double num) {
 * Perform matrix multiplication with the given matrix.
 */
 Matrix& Matrix::operator*=(Matrix mat) {
-  Matrix multiplied = Multiply(*this, mat);
+  Matrix multiplied = multiply(*this, mat);
   return (*this = multiplied);
 }
 
+/*
+* Adds the given value to every value in the matrix.
+*/
+Matrix& Matrix::operator+=(int num) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] += num;
+    }
+  }
+  return *this;
+}
+
+/*
+* Adds the given value to every value in the matrix.
+*/
+Matrix& Matrix::operator+=(double num) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] += num;
+    }
+  }
+  return *this;
+}
+
+/*
+* Perform matrix addition with the given matrix.
+*/
+Matrix& Matrix::operator+=(Matrix mat) {
+  Matrix added = add(*this, mat);
+  return (*this = added);
+}
+
+/*
+* Subtracts the given value from every value in the matrix.
+*/
+Matrix& Matrix::operator-=(int num) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] -= num;
+    }
+  }
+  return *this;
+}
+
+/*
+* Subtracts the given value from every value in the matrix.
+*/
+Matrix& Matrix::operator-=(double num) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] -= num;
+    }
+  }
+  return *this;
+}
+
+/*
+* Perform matrix subtraction with the given matrix.
+*/
+Matrix& Matrix::operator-=(Matrix mat) {
+  Matrix added = subtract(*this, mat);
+  return (*this = added);
+}

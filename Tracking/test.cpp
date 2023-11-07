@@ -8,7 +8,7 @@ int main() {
   std::cout << sizeof(a)/sizeof(a[0]) << "\n";
   std::cout << sizeof(a[0])/sizeof(double) << "\n";
 
-  //Matrix mat = Matrix::Zeros(3, 4);
+  //Matrix mat = Matrix::zeros(3, 4);
   Matrix mat(2, 3);
   mat.print(5);
   for (int i = 0; i < 2; i++) {
@@ -20,11 +20,11 @@ int main() {
   mat.print(5);
   std::cout << "\n";
 
-  Matrix mat2 = Matrix::Zeros(3, 4);
+  Matrix mat2 = Matrix::zeros(3, 4);
   mat2.print(5);
   std::cout << "\n";
 
-  Matrix mat3 = Matrix::Identity(5);
+  Matrix mat3 = Matrix::identity(5);
   mat3.print();
   std::cout << "\n";
 
@@ -48,6 +48,7 @@ int main() {
   column.print();
   std::cout << "\n";
 
+  std::cout << "\n\nMultiplication testing:\n";
   Matrix row = mat4.getRow(2);
   row.print();
   std::cout << "\n";
@@ -55,7 +56,7 @@ int main() {
   row.print();
   row *= 2.5;
   row.print();
-  Matrix test = Matrix::Multiply(row, column);
+  Matrix test = Matrix::multiply(row, column);
   test.print();
   //row *= column;
   //row.print();
@@ -63,4 +64,29 @@ int main() {
   column.print();
   mat *= mat2;
   mat.print();
+
+  std::cout << "\n\nAddition testing:\n";
+  mat4.print();
+  mat4 += 5;
+  mat4.print();
+  mat4 += 1.5;
+  mat4.print();
+  mat4 += mat3;//Matrix::add(mat4, mat3);
+  mat4.print();
+
+  std::cout << "\n\nSubtraction testing:\n";
+  mat4 -= 5;
+  mat4.print();
+  mat4 -= 1.5;
+  mat4.print();
+  mat4 -= mat3;//Matrix::subtract(mat4, mat3);
+  mat4.print();
+
+  std::cout << "\n\nElement-wise multiplication:\n";
+  mat4 += 2;
+  mat3 *= 2;
+  mat4.print();
+  mat3.print();
+  mat4 = Matrix::multiplyElementwise(mat4, mat3);
+  mat4.print();
 }

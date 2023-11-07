@@ -25,9 +25,12 @@ class Matrix {
     ~Matrix();
 
     // Static methods for instatiating a specific type of matrix
-    static Matrix Zeros(int num_rows, int num_columns);
-    static Matrix Identity(int size);
-    static Matrix Multiply(Matrix left, Matrix right);
+    static Matrix zeros(int num_rows, int num_columns);
+    static Matrix identity(int size);
+    static Matrix multiply(Matrix left, Matrix right);
+    static Matrix add(Matrix left, Matrix right);
+    static Matrix subtract(Matrix left, Matrix right);
+    static Matrix multiplyElementwise(Matrix left, Matrix right);
 
     // Functions
 
@@ -42,7 +45,10 @@ class Matrix {
     // TODO - Add matrix functions
     /*
     * Transpose
-    * Addition
+    * Min - entire, rows, columns
+    * Max - entire, rows, columns
+    * Inverse
+    * Element wise division
     */
 
 
@@ -52,13 +58,17 @@ class Matrix {
     Matrix& operator*=(int num);
     Matrix& operator*=(double num);
     Matrix& operator*=(Matrix mat);
+    Matrix& operator+=(int num);
+    Matrix& operator+=(double num);
+    Matrix& operator+=(Matrix mat);
+    Matrix& operator-=(int num);
+    Matrix& operator-=(double num);
+    Matrix& operator-=(Matrix mat);
+
     //Matrix operator/();
     //Matrix operator+();
     //Matrix operator-();
-    //Matrix operator*=();
     //Matrix operator/=();
-    //Matrix operator+=();
-    //Matrix operator-=();
 
     // Friend class
     // Define friend class "Row" to allow for indexing using []
