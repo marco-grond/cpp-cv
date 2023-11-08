@@ -311,6 +311,48 @@ Matrix Matrix::copy() {
 }
 
 /*
+* Find the transpose of the current matrix. This operation is done in place.
+*/
+void Matrix::transpose() {
+  int temp;
+  // Check if matrix is square, in which case swap relevant positions
+  if (rows == cols) {
+    for (int i = 0; i < rows; i++) {
+      for (int j = i+1; j < cols; j++) {
+        temp = matrix[i*rows + j];
+        matrix[i*cols + j] = matrix[j*cols + i];
+        matrix[j*cols + i] = temp;
+      }
+    }
+
+  // If the matrix is not square, create and populate a new matrix
+  } else {
+    double tempMat[rows * cols];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        tempMat[j*rows + i] = matrix[i*cols + j];
+      }
+    }
+    for (int i = 0; i < (rows*cols); i++) {
+      matrix[i] = tempMat[i];
+    }
+    temp = rows;
+    rows = cols;
+    cols = temp;
+
+  }
+}
+
+/*
+* Find and return the transpose of the matrix
+*/
+Matrix Matrix::T() {
+  Matrix newMat = copy();
+  newMat.transpose();
+  return newMat;
+}
+
+/*
 * PUBLIC OPERATOR METHODS
 */
 
@@ -364,18 +406,6 @@ Matrix& Matrix::operator=(Matrix mat) {
 /*
 * Multiplies every value in the matrix by the given value.
 */
-Matrix& Matrix::operator*=(int num) {
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      matrix[i*cols + j] *= num;
-    }
-  }
-  return *this;
-}
-
-/*
-* Multiplies every value in the matrix by the given value.
-*/
 Matrix& Matrix::operator*=(double num) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
@@ -391,18 +421,6 @@ Matrix& Matrix::operator*=(double num) {
 Matrix& Matrix::operator*=(Matrix mat) {
   Matrix multiplied = multiply(*this, mat);
   return (*this = multiplied);
-}
-
-/*
-* Adds the given value to every value in the matrix.
-*/
-Matrix& Matrix::operator+=(int num) {
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      matrix[i*cols + j] += num;
-    }
-  }
-  return *this;
 }
 
 /*
@@ -428,18 +446,6 @@ Matrix& Matrix::operator+=(Matrix mat) {
 /*
 * Subtracts the given value from every value in the matrix.
 */
-Matrix& Matrix::operator-=(int num) {
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      matrix[i*cols + j] -= num;
-    }
-  }
-  return *this;
-}
-
-/*
-* Subtracts the given value from every value in the matrix.
-*/
 Matrix& Matrix::operator-=(double num) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
@@ -455,4 +461,88 @@ Matrix& Matrix::operator-=(double num) {
 Matrix& Matrix::operator-=(Matrix mat) {
   Matrix added = subtract(*this, mat);
   return (*this = added);
+}
+
+// Operator functions for acting on matrices
+
+/*
+* Adds two matrices together
+*/
+Matrix operator+(Matrix left, Matrix right) {
+  Matrix newMat = left.copy();
+  newMat += right;
+  return newMat;
+}
+
+/*
+* Adds a matrix and a number together
+*/
+Matrix operator+(Matrix left, double right) {
+  Matrix newMat = left.copy();
+  newMat += right;
+  return newMat;
+}
+
+/*
+* Adds a matrix and a number together
+*/
+Matrix operator+(double left, Matrix right) {
+  Matrix newMat = right.copy();
+  newMat += left;
+  return newMat;
+}
+
+/*
+* Subtracts the matrix on the right from the matrix on the left
+*/
+Matrix operator-(Matrix left, Matrix right) {
+  Matrix newMat = left.copy();
+  newMat -= right;
+  return newMat;
+}
+
+/*
+* Subtracts the number on the right from the matrix on the left
+*/
+Matrix operator-(Matrix left, double right) {
+  Matrix newMat = left.copy();
+  newMat -= right;
+  return newMat;
+}
+
+/*
+* Subtracts the matrix on the right from the number on the left
+*/
+Matrix operator-(double left, Matrix right) {
+  Matrix newMat = right.copy();
+  newMat *= -1;
+  newMat += left;
+  return newMat;
+}
+
+/*
+* Multiply the matrices together
+*/
+Matrix operator*(Matrix left, Matrix right) {
+  Matrix newMat = left.copy();
+  newMat *= right;
+  return newMat;
+}
+
+/*
+* Multiply the matrix with the given number
+*/
+Matrix operator*(Matrix left, double right) {
+  Matrix newMat = left.copy();
+  newMat *= right;
+  return newMat;
+}
+
+/*
+* Multiply the matrix with the given number
+*/
+Matrix operator*(double left, Matrix right) {
+  Matrix newMat = right.copy();
+  newMat *= left;
+  return newMat;
 }

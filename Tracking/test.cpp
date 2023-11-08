@@ -89,4 +89,45 @@ int main() {
   mat3.print();
   mat4 = Matrix::multiplyElementwise(mat4, mat3);
   mat4.print();
+
+  std::cout << "\n\n+ Operator:\n";
+  mat4 = mat4 + mat3;
+  mat4.print();
+  mat4 = mat4 + 3;
+  mat4.print();
+  mat4 = 2.5 + mat4;
+  mat4.print();
+
+  std::cout << "\n\n- Operator:\n";
+  mat4 = mat4 - mat3;
+  mat4.print();
+  mat4 = mat4 - 2.5;
+  mat4.print();
+  mat4 = 2 - mat4;
+  mat4.print();
+  mat4 = -1 - mat4;
+  mat4.print();
+
+  std::cout << "\n\n* Operator:\n";
+  mat4 = mat4 * mat3;
+  mat4.print();
+  mat4 = mat4 * 2;
+  mat4.print();
+  mat4 = 0.5 * mat4;
+  mat4.print();
+
+  std::cout << "\n\nTranspose:\n";
+  Matrix mat5 = Matrix(3, 2);
+  int k = 0;
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 2; j++) {
+      mat5[i][j] = k;
+      k++;
+    }
+  }
+  mat5.print();
+  mat5.transpose();
+  mat5.print();
+  mat5 = mat5.T();
+  mat5.print();
 }

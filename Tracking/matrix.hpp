@@ -42,9 +42,10 @@ class Matrix {
 
     void print(int decimals=5);
     Matrix copy();
+    void transpose();
+    Matrix T();
     // TODO - Add matrix functions
     /*
-    * Transpose
     * Min - entire, rows, columns
     * Max - entire, rows, columns
     * Inverse
@@ -53,22 +54,17 @@ class Matrix {
 
 
     // Operators
-    double &operator()(int row = 0, int column = 0);
+    double& operator()(int row = 0, int column = 0);
     Matrix& operator=(Matrix mat);
-    Matrix& operator*=(int num);
     Matrix& operator*=(double num);
     Matrix& operator*=(Matrix mat);
-    Matrix& operator+=(int num);
     Matrix& operator+=(double num);
     Matrix& operator+=(Matrix mat);
-    Matrix& operator-=(int num);
     Matrix& operator-=(double num);
     Matrix& operator-=(Matrix mat);
 
-    //Matrix operator/();
     //Matrix operator+();
     //Matrix operator-();
-    //Matrix operator/=();
 
     // Friend class
     // Define friend class "Row" to allow for indexing using []
@@ -104,3 +100,14 @@ class Matrix {
       return Row(*this, row);
     }
 };
+
+// Operators functions for acting on matrices
+Matrix operator+(Matrix left, Matrix right);
+Matrix operator+(Matrix left, double right);
+Matrix operator+(double left, Matrix right);
+Matrix operator-(Matrix left, Matrix right);
+Matrix operator-(Matrix left, double right);
+Matrix operator-(double left, Matrix right);
+Matrix operator*(Matrix left, Matrix right);
+Matrix operator*(Matrix left, double right);
+Matrix operator*(double left, Matrix right);
