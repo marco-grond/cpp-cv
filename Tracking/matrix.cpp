@@ -353,6 +353,68 @@ Matrix Matrix::T() {
 }
 
 /*
+* Finds the index (row, column) of the minimum value in the matrix. If multiple 
+* items have the same value, the first instance in row major order is returned.
+* Returns an index struct where index.r gives the row index and index.c gives 
+* the column index.
+*/
+struct index Matrix::minIndex() {
+
+  // Find the minimum value in the array
+  int arrIndex = 0;
+  for (int i = 0; i < (rows*cols); i++) {
+    if (matrix[i] < matrix[arrIndex]) {
+      arrIndex = i;
+    }
+  }
+
+  // Translate the minimum value 
+  struct index returnIndex;
+  returnIndex.r = arrIndex/cols;
+  returnIndex.c = arrIndex%cols;
+  return returnIndex;
+}
+
+/*
+* Finds the index (row, column) of the maximum value in the matrix. If multiple 
+* items have the same value, the first instance in row major order is returned.
+* Returns an index struct where index.r gives the row index and index.c gives 
+* the column index.
+*/
+struct index Matrix::maxIndex() {
+
+  // Find the maximum value in the array
+  int arrIndex = 0;
+  for (int i = 0; i < (rows*cols); i++) {
+    if (matrix[i] > matrix[arrIndex]) {
+      arrIndex = i;
+    }
+  }
+
+  // Translate the minimum value 
+  struct index returnIndex;
+  returnIndex.r = arrIndex/cols;
+  returnIndex.c = arrIndex%cols;
+  return returnIndex;
+}
+
+/*
+* Finds and returns the minimum value in the matrix.
+*/
+double Matrix::min() {
+  struct index arrIndex= minIndex();
+  return matrix[arrIndex.r*cols + arrIndex.c];
+}
+
+/*
+* Finds and return the maximum value in the matrix.
+*/
+double Matrix::max() {
+  struct index arrIndex= maxIndex();
+  return matrix[arrIndex.r*cols + arrIndex.c];
+}
+
+/*
 * PUBLIC OPERATOR METHODS
 */
 

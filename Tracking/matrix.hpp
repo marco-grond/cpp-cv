@@ -7,6 +7,12 @@
 ******************************************************************************/
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
+
+struct index {
+  int r;
+  int c;
+};
 
 class Row;
 class Matrix;
@@ -44,6 +50,12 @@ class Matrix {
     Matrix copy();
     void transpose();
     Matrix T();
+    struct index minIndex();
+    struct index maxIndex();
+    double min();
+    double max();
+
+    //int findIndex(double val);
     // TODO - Add matrix functions
     /*
     * Min - entire, rows, columns

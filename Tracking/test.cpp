@@ -130,4 +130,32 @@ int main() {
   mat5.print();
   mat5 = mat5.T();
   mat5.print();
+
+  std::cout << "\n\nTest min and minIndex:\n";
+  mat5.print();
+  struct index ind = mat5.minIndex();
+  double val = mat5.min();
+  std::cout << "Min Index: (" << ind.r << ", " << ind.c << ")\n";
+  std::cout << "Min Value: " << val << "\n";
+  mat5.transpose();
+  mat5.print();
+  ind = mat5.minIndex();
+  val = mat5.min();
+  std::cout << "Min Index: (" << ind.r << ", " << ind.c << ")\n";
+  std::cout << "Min Value: " << val << "\n";
+  mat5.transpose();
+
+  std::cout << "\n\nTest max and maxIndex:\n";
+  mat5.print();
+  ind = mat5.maxIndex();
+  val = mat5.max();
+  std::cout << "Max Index: (" << ind.r << ", " << ind.c << ")\n";
+  std::cout << "Max Value: " << val << "\n";
+  mat5.transpose();
+  mat5.print();
+  ind = mat5.maxIndex();
+  val = mat5.max();
+  std::cout << "Max Index: (" << ind.r << ", " << ind.c << ")\n";
+  std::cout << "Max Value: " << val << "\n";
+  mat5.transpose();
 }
