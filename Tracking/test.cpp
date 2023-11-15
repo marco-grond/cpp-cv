@@ -65,6 +65,20 @@ int main() {
   mat *= mat2;
   mat.print();
 
+  std::cout << "\n\nDivision testing:\n";
+  Matrix matDivision = mat4.copy();
+  matDivision.print();
+  matDivision /= 2;
+  matDivision.print();
+  matDivision /= mat4;
+  matDivision.print();
+  Matrix matTest = matDivision / 4.0;
+  matTest.print();
+  matTest = 1 / matTest;
+  matTest.print();
+  matTest = matTest / mat4;
+  matTest.print();
+
   std::cout << "\n\nAddition testing:\n";
   mat4.print();
   mat4 += 5;

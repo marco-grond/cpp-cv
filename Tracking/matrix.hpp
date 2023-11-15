@@ -61,7 +61,6 @@ class Matrix {
     * Min - entire, rows, columns
     * Max - entire, rows, columns
     * Inverse
-    * Element wise division
     */
 
 
@@ -74,6 +73,8 @@ class Matrix {
     Matrix& operator+=(Matrix mat);
     Matrix& operator-=(double num);
     Matrix& operator-=(Matrix mat);
+    Matrix& operator/=(double num);
+    Matrix& operator/=(Matrix mat);
 
     //Matrix operator+();
     //Matrix operator-();
@@ -123,3 +124,6 @@ Matrix operator-(double left, Matrix right);
 Matrix operator*(Matrix left, Matrix right);
 Matrix operator*(Matrix left, double right);
 Matrix operator*(double left, Matrix right);
+Matrix operator/(Matrix left, Matrix right);
+Matrix operator/(Matrix left, double right);
+Matrix operator/(double left, Matrix right);

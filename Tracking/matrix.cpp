@@ -518,14 +518,53 @@ Matrix& Matrix::operator-=(double num) {
 }
 
 /*
-* Perform matrix subtraction with the given matrix.
+* Performs matrix subtraction with the given matrix.
 */
 Matrix& Matrix::operator-=(Matrix mat) {
   Matrix added = subtract(*this, mat);
   return (*this = added);
 }
 
-// Operator functions for acting on matrices
+/*
+* Divides every element in the matrix by the given number value
+*/
+Matrix& Matrix::operator/=(double num) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] /= num;
+    }
+  }
+  return *this;
+}
+
+/*
+* Divides every element in the matrix by the corresponding element in the 
+* provided matrix. The matrices have to have the same shape.
+*/
+Matrix& Matrix::operator/=(Matrix mat) {
+  // If the rows and columns do not match up, need to create a new matrix.
+  if ((rows != mat.getRows()) || (cols != mat.getColumns())) {
+    std::string dim1 = "(" + std::to_string(rows) + "," + 
+                       std::to_string(cols) + ")";
+    std::string dim2 = "(" + std::to_string(mat.getRows()) + "," + 
+                        std::to_string(mat.getColumns()) + ")";
+    std::cout << "Mismatched sizes for matrices with dimensions: " << dim1
+              << " and " << dim2 << "\n";
+    throw std::invalid_argument("Mismatched matrix dimensions.");
+  }
+
+  // Subtract the matrices from one another and return
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      matrix[i*cols + j] /= mat[i][j];
+    }
+  }
+  return *this;
+}
+
+/******************************************************************************
+ * Operator functions for acting on matrices                                  *
+/******************************************************************************
 
 /*
 * Adds two matrices together
@@ -606,5 +645,38 @@ Matrix operator*(Matrix left, double right) {
 Matrix operator*(double left, Matrix right) {
   Matrix newMat = right.copy();
   newMat *= left;
+  return newMat;
+}
+
+/*
+* Does element wise division on the two matrices. The matrices must have the 
+* same dimentions.
+*/
+Matrix operator/(Matrix left, Matrix right) {
+  Matrix newMat = left.copy();
+  newMat /= right;
+  return newMat;
+}
+
+/*
+* Divides the matrix by the given number.
+*/
+Matrix operator/(Matrix left, double right) {
+  Matrix newMat = left.copy();
+  newMat /= right;
+  return newMat;
+}
+
+/*
+* Returns a matrix where each element is equal to the number value divided by
+* the corresponding element in the given matrix.
+*/
+Matrix operator/(double left, Matrix right) {
+  Matrix newMat = right.copy();
+  for (int i = 0; i < newMat.getRows(); i++) {
+    for (int j = 0; j < newMat.getColumns(); j++) {
+      newMat[i][j] = left/newMat[i][j];
+    }
+  }
   return newMat;
 }
