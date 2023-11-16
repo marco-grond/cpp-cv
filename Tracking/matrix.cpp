@@ -6,9 +6,9 @@
 ******************************************************************************/
 #include "matrix.hpp"
 
-/*
-* CONSTRUCTORS AND DESTRUCTOR
-*/
+/******************************************************************************
+* CONSTRUCTORS AND DESTRUCTOR                                                 *
+******************************************************************************/
 
 /*
 * Basic constructor for empty matrix.
@@ -57,9 +57,9 @@ Matrix::~Matrix() {
   //delete matrix;
 }
 
-/*
-* STATIC METHODS
-*/
+/******************************************************************************
+* STATIC METHODS                                                              *
+******************************************************************************/
 
 /*
 * Creates a matrix of the given size where every element is set to zero.
@@ -210,9 +210,9 @@ Matrix Matrix::multiplyElementwise(Matrix left, Matrix right) {
   return result;
 }
 
-/*
-* PUBLIC METHODS
-*/
+/******************************************************************************
+* PUBLIC METHODS                                                              *
+******************************************************************************/
 
 /*
 * Returns the number of rows in the matrix.
@@ -414,29 +414,37 @@ double Matrix::max() {
   return matrix[arrIndex.r*cols + arrIndex.c];
 }
 
-/*
-* PUBLIC OPERATOR METHODS
-*/
+/******************************************************************************
+* PUBLIC OPERATOR METHODS                                                     *
+******************************************************************************/
 
 /*
 * Allows indexing using (row, column) into the matrix. Index must exist within 
 * the size of the matrix.
 */
 double& Matrix::operator()(int row, int column) {
-      //std::cout << "(" << row << ", " << column << ") -> (" << rows << ", " << cols << ") " << (((0 > row) || (row >= rows)) || ((0 > column) || (column >= cols)))  << "\n";
-      if (((0 > row) || (row >= rows)) ||
-          ((0 > column) || (column >= cols))) {
-        std::string index = "(" + std::to_string(row) + "," + 
-                            std::to_string(column) + ")";
-        std::string size = "(" + std::to_string(rows) + "," + 
-                            std::to_string(cols) + ")";
-        std::cout << "Invalid index " << index << " for matrix with size " 
-                  << size << "\n";
-        throw std::invalid_argument("Invalid index.");
-      }
+  // Ensure that the index is valid
+  if (((-rows > row) || (row >= rows)) ||
+      ((-cols > column) || (column >= cols))) {
+    std::string index = "(" + std::to_string(row) + "," + 
+                        std::to_string(column) + ")";
+    std::string size = "(" + std::to_string(rows) + "," + 
+                        std::to_string(cols) + ")";
+    std::cout << "Invalid index " << index << " for matrix with size " 
+              << size << "\n";
+    throw std::invalid_argument("Invalid index.");
+  }
 
-      return matrix[row*cols + column];
-    }
+  // Handle negative indexing
+  if (row < 0) {
+    row += rows;
+  }
+  if (column < 0) {
+    column += cols;
+  }
+
+  return matrix[row*cols + column];
+}
 
 /*
 * Replaces the current instance of the class with the given one.

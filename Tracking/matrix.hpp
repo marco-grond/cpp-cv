@@ -55,6 +55,7 @@ class Matrix {
     double min();
     double max();
 
+
     //int findIndex(double val);
     // TODO - Add matrix functions
     /*
@@ -65,7 +66,7 @@ class Matrix {
 
 
     // Operators
-    double& operator()(int row = 0, int column = 0);
+    double& operator()(int row, int column);
     Matrix& operator=(Matrix mat);
     Matrix& operator*=(double num);
     Matrix& operator*=(Matrix mat);
@@ -76,11 +77,8 @@ class Matrix {
     Matrix& operator/=(double num);
     Matrix& operator/=(Matrix mat);
 
-    //Matrix operator+();
-    //Matrix operator-();
-
     // Friend class
-    // Define friend class "Row" to allow for indexing using []
+    // Define friend class "Row" to allow for indexing using [][]
     class Row {
       friend class Matrix;
       private:
@@ -94,9 +92,9 @@ class Matrix {
 
         // Get the value at the correct column index
         double& operator[](int column) {
-          //std::cout << "[" << row << "][" << column << "] -> (" << parent.rows << ", " << parent.cols << ")\n";
-          if (((0 > row) || (row >= parent.rows)) ||
-              ((0 > column) || (column >= parent.cols))) {
+          // Ensure that the index is valid
+          if (((-parent.rows > row) || (row >= parent.rows)) ||
+              ((-parent.cols > column) || (column >= parent.cols))) {
             std::string index = "(" + std::to_string(row) + "," + 
                                 std::to_string(column) + ")";
             std::string size = "(" + std::to_string(parent.rows) + "," + 
@@ -105,6 +103,15 @@ class Matrix {
                       << size << "\n";
             throw std::invalid_argument("Invalid index.");
           }
+ 
+          // Handle negative indexing
+          if (row < 0) {
+            row += parent.rows;
+          }
+          if (column < 0) {
+            column += parent.cols;
+          }
+
           return parent.matrix[row*parent.cols + column];
         }
     };

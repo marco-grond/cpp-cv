@@ -172,4 +172,13 @@ int main() {
   std::cout << "Max Index: (" << ind.r << ", " << ind.c << ")\n";
   std::cout << "Max Value: " << val << "\n";
   mat5.transpose();
+
+  std::cout << "\n\nTest negative indexing:\n";
+  mat5.print();
+  std::cout << "mat[0][-1]: " << mat5[0][-1] << "\n";
+  std::cout << "mat[-1][0]: " << mat5[-1][0] << "\n";
+  std::cout << "mat[-3][-2]: " << mat5[-3][-2] << "\n";
+  std::cout << "mat(-1, 0): " << mat5(-1, 0) << "\n";
+  std::cout << "mat(0, -1): " << mat5(0, -1) << "\n";
+  std::cout << "mat(-3, -2): " << mat5(-3, -2) << "\n";
 }
