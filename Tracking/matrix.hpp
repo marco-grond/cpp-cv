@@ -54,6 +54,8 @@ class Matrix {
     struct index maxIndex();
     double min();
     double max();
+    double minRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
+    double maxRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
 
 
     //int findIndex(double val);
@@ -62,6 +64,7 @@ class Matrix {
     * Min - entire, rows, columns
     * Max - entire, rows, columns
     * Inverse
+    * Resize
     */
 
 

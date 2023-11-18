@@ -181,4 +181,14 @@ int main() {
   std::cout << "mat(-1, 0): " << mat5(-1, 0) << "\n";
   std::cout << "mat(0, -1): " << mat5(0, -1) << "\n";
   std::cout << "mat(-3, -2): " << mat5(-3, -2) << "\n";
+
+  std::cout << "\n\nTest min and max in range:\n";
+  mat5.print();
+  std::cout << "Min full range: " << mat5.minRange() << "\n";
+  std::cout << "Max full range: " << mat5.maxRange() << "\n";
+  std::cout << "Min [1:2, 0:1]: " << mat5.minRange(1, 2, 0, 1) << "\n";
+  std::cout << "Max [0:1, 0:0]: " << mat5.maxRange(0, 1, 0, 0) << "\n";
+  std::cout << "Min [-1:-1, -1:-1]: " << mat5.minRange(-1, -1, -1, -1) << "\n";
+  std::cout << "Max [1:1, 1:1]: " << mat5.maxRange(1, 1, 1, 1) << "\n";
+  
 }

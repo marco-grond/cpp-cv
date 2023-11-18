@@ -414,6 +414,97 @@ double Matrix::max() {
   return matrix[arrIndex.r*cols + arrIndex.c];
 }
 
+/*
+* Finds and returns the minimum value in a given range of the matrix. The 
+* arguments indicate both the row and column range.
+*
+* minRow - The lower bound row index for the function
+* minCol - The lower bound column index for the function
+* maxRow - The upper bound row index for the function
+* maxCol - The upper bound column index for the function
+*/
+double Matrix::minRange(int minRow, int maxRow, int minCol, int maxCol) {
+  // Handle negative indexing
+  if (maxRow < 0) {
+    maxRow += rows;
+  }
+  if (maxCol < 0) {
+    maxCol += cols;
+  }
+  if (minRow < 0) {
+    minRow += rows;
+  }
+  if (minCol < 0) {
+    minCol += cols;
+  }
+
+  // Ensure that the range is valid
+  if (((minRow < 0) || (maxRow >= rows) || (minRow > maxRow)) ||
+      ((minCol < 0) || (maxCol >= cols) || (minCol > maxCol))) {
+    std::string slice = "(" + std::to_string(minRow) + ":" + 
+                        std::to_string(maxRow) + ", " +
+                        std::to_string(minCol) + ":" + 
+                        std::to_string(maxCol) + ")";
+    std::string size = "(" + std::to_string(rows) + "," + 
+                        std::to_string(cols) + ")";
+    std::cout << "Invalid range " << slice << " for matrix with size " 
+              << size << "\n";
+    throw std::invalid_argument("Invalid index.");
+  }
+
+  // Find the minimum in the range and return it
+  int arrIndex = minRow*cols + minCol;
+  for (int i = minRow; i <= maxRow; i++) {
+    for (int j = minCol; j <= maxCol; j++) {
+      if (matrix[i*cols + j] < matrix[arrIndex]) {
+        arrIndex = i*cols + j;
+      }
+    }
+  }
+  return matrix[arrIndex];
+}
+
+double Matrix::maxRange(int minRow, int maxRow, int minCol, int maxCol) {
+  // Handle negative indexing
+  if (maxRow < 0) {
+    maxRow += rows;
+  }
+  if (maxCol < 0) {
+    maxCol += cols;
+  }
+  if (minRow < 0) {
+    minRow += rows;
+  }
+  if (minCol < 0) {
+    minCol += cols;
+  }
+
+  // Ensure that the range is valid
+  if (((minRow < 0) || (maxRow >= rows) || (minRow > maxRow)) ||
+      ((minCol < 0) || (maxCol >= cols) || (minCol > maxCol))) {
+    std::string slice = "(" + std::to_string(minRow) + ":" + 
+                        std::to_string(maxRow) + ", " +
+                        std::to_string(minCol) + ":" + 
+                        std::to_string(maxCol) + ")";
+    std::string size = "(" + std::to_string(rows) + "," + 
+                        std::to_string(cols) + ")";
+    std::cout << "Invalid range " << slice << " for matrix with size " 
+              << size << "\n";
+    throw std::invalid_argument("Invalid index.");
+  }
+
+  // Find the maximum in the range and return it
+  int arrIndex = minRow*cols + minCol;
+  for (int i = minRow; i <= maxRow; i++) {
+    for (int j = minCol; j <= maxCol; j++) {
+      if (matrix[i*cols + j] > matrix[arrIndex]) {
+        arrIndex = i*cols + j;
+      }
+    }
+  }
+  return matrix[arrIndex];
+}
+
 /******************************************************************************
 * PUBLIC OPERATOR METHODS                                                     *
 ******************************************************************************/
