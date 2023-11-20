@@ -56,13 +56,14 @@ class Matrix {
     double max();
     double minRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
     double maxRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
+    void resize(int rowLength, int columnLength);
 
 
     //int findIndex(double val);
     // TODO - Add matrix functions
     /*
-    * Min - entire, rows, columns
-    * Max - entire, rows, columns
+    * Concatenate
+    * Append row/column of given row/column vector or of zeros
     * Inverse
     * Resize
     */

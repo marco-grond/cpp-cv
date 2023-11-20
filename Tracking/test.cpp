@@ -191,4 +191,16 @@ int main() {
   std::cout << "Min [-1:-1, -1:-1]: " << mat5.minRange(-1, -1, -1, -1) << "\n";
   std::cout << "Max [1:1, 1:1]: " << mat5.maxRange(1, 1, 1, 1) << "\n";
   
+  std::cout << "\n\nTest resizing:\n";
+  mat5.print();
+  mat5.resize(6, 1);
+  mat5.print();
+  mat5.resize(2, 3);
+  mat5.print();
+  mat5.resize(1, 6);
+  mat5.print();
+  mat5.resize(3, 2);
+  mat5.print();
+  mat5.resize(3, 3);
+  mat5.print();
 }

@@ -505,6 +505,25 @@ double Matrix::maxRange(int minRow, int maxRow, int minCol, int maxCol) {
   return matrix[arrIndex];
 }
 
+/*
+* Resizes the matrix to the given sizes. Resizing is done on a row-major order
+* basis. Checks to ensure that the new size is compatible with the original 
+* size.
+*/
+void Matrix::resize(int rowLength, int columnLength) {
+  if ((rowLength * columnLength) != (rows * cols)) {
+    std::string newDims = "(" + std::to_string(rowLength) + ", " + 
+                          std::to_string(columnLength) + ")";
+    std::string oldDims = "(" + std::to_string(rows) + ", " + 
+                          std::to_string(cols) + ")";
+    std::cout << "Invalid resizing dimensions " << oldDims << " to " 
+              << newDims << "\n";
+    throw std::invalid_argument("Incompatible resizing dimensions.");
+  }
+  rows = rowLength;
+  cols = columnLength;
+}
+
 /******************************************************************************
 * PUBLIC OPERATOR METHODS                                                     *
 ******************************************************************************/
