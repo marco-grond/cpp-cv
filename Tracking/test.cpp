@@ -40,7 +40,6 @@ int main() {
 
   std::cout << mat4[2][2] << "\n";
   std::cout << mat4(2, 2) << "\n";
-  std::cout << "AAAA\n";
   mat4.print();
   std::cout << "\n";
 
@@ -201,6 +200,19 @@ int main() {
   mat5.print();
   mat5.resize(3, 2);
   mat5.print();
-  mat5.resize(3, 3);
+  /*mat5.resize(3, 3);
+  mat5.print();*/
+
+  std::cout << "\n\nTest concatenation:\n";
+  mat5.print();
+  double b[6] = {6, 7, 8, 9, 10, 11};
+  Matrix mat6(3, 2, b);
+  mat6.print();
+  mat5.concatenate(mat6, 1);
+  mat5.print();
+  mat6.resize(6, 1);
+  mat5.concatenate(mat6, 0);
+  mat5.print();
+  mat5.concatenate(mat5);
   mat5.print();
 }

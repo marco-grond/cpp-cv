@@ -33,15 +33,15 @@ Matrix::Matrix(int num_rows, int num_columns) :
 * data - A pointer to a datastructure of the correct type containing the data 
 *        that the matrix should be filled with in row major order
 */
-Matrix::Matrix(int num_rows, int num_columns, double* data) :
+Matrix::Matrix(int num_rows, int num_columns, double data[]) :
   rows(num_rows),
   cols(num_columns),
   //matrix(double[num_rows * num_columns])
   matrix(new double[num_rows * num_columns])
 {
-  if ((sizeof(data)/sizeof(double)) != (rows * cols)) {
+  /*if ((sizeof(data)/sizeof(double)) != (rows * cols)) {
     throw std::invalid_argument("Data size does not match the dimension"); 
-  }
+  }*/
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       matrix[i*cols + j] = data[i*cols + j];
@@ -522,6 +522,75 @@ void Matrix::resize(int rowLength, int columnLength) {
   }
   rows = rowLength;
   cols = columnLength;
+}
+
+/*
+* Concatenate the provided matrix to the current matrix if the dimensions 
+* match along the provided axis.
+*
+* mat - The matrix which should be concatenated with the current matrix
+* axis - The axis on which concatenation should be done. If set to 0, mat will
+*        be added to the right of the currect matrix, extending the rows. If 
+*        set to 1, mat will be added to the bottom of the current matrix 
+*        extending the columns
+*/
+void Matrix::concatenate(Matrix mat, int axis) {
+
+  // Check to ensure that the provided axis is valid
+  if ((axis < 0) || (axis > 1)) {
+    std::cout << "Invalid concatenate axis: " << axis << ". Must be 0 or 1.\n";
+    throw std::invalid_argument("Invalid axis for concatenation.");
+  }
+
+  // Check to ensure that the provided matrix is of the correct shape
+  if (((axis == 0) && (mat.getRows() != rows)) || 
+      ((axis == 1) && mat.getColumns() != cols)){
+    std::cout << "Invalid matrix shapes (" << rows << "," << cols <<") and (" 
+              << mat.getRows() << ", " << mat.getColumns() 
+              << ") for concatenation on axis " << axis << ".\n";
+    throw std::invalid_argument("Invalid matrix sizes for concatenation.");
+  }
+
+  // Create a new array to store the matrix, change the number of columns and 
+  // fill the array with values from both matrices. Column
+  if (axis == 0) {
+    int newColumns = cols + mat.getColumns();
+    double* temp = new double[rows * newColumns];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        temp[i*newColumns + j] = matrix[i*cols + j];
+      }
+    }
+    for (int i = 0; i < mat.getRows(); i++) {
+      for (int j = 0; j < mat.getColumns(); j++) {
+        temp[i*newColumns + j + cols] = mat[i][j];
+      }
+    }
+    cols = newColumns;
+    delete matrix;
+    matrix = temp;
+
+  // Create a new array to store the matrix, change the number of rows and fill
+  // the array with values from both matrices
+  } else {
+    int newRows = rows + mat.getRows();
+    double* temp = new double[newRows * cols];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        temp[i*cols + j] = matrix[i*cols + j];
+      }
+    }
+    for (int i = 0; i < mat.getRows(); i++) {
+      for (int j = 0; j < mat.getColumns(); j++) {
+        std::cout << "(" << i << ", " << j << "): ";
+        std::cout << ((i+newRows)*cols + j) << " -> " << mat[i][j] << "\n";
+        temp[(i+rows)*cols + j] = mat[i][j];
+      }
+    }
+    rows = newRows;
+    delete matrix;
+    matrix = temp;
+  }
 }
 
 /******************************************************************************

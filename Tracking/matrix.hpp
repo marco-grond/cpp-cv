@@ -27,7 +27,7 @@ class Matrix {
 
     // Constructors and destructor
     Matrix(int num_rows, int num_columns);
-    Matrix(int num_rows, int num_columns, double* data);
+    Matrix(int num_rows, int num_columns, double data[]);
     ~Matrix();
 
     // Static methods for instatiating a specific type of matrix
@@ -57,6 +57,7 @@ class Matrix {
     double minRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
     double maxRange(int minRow=0, int maxRow=-1, int minCol=0, int maxCol=-1);
     void resize(int rowLength, int columnLength);
+    void concatenate(Matrix mat, int axis=0);
 
 
     //int findIndex(double val);
